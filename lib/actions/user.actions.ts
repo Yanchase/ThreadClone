@@ -4,6 +4,16 @@ import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { connectToDb } from "../validations/mongoose";
 
+export async function fetchUser(userId: string) {
+  try {
+    connectToDb();
+    return await User.findOne({ id: userId });
+    //.populate({ path: "communities" });
+  } catch (error: any) {
+    throw new Error(`${error.message}`);
+  }
+}
+
 interface Params {
   userId: string;
   username: string;
